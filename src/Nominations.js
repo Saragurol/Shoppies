@@ -2,16 +2,14 @@ import './nominations.css';
 import {useState} from "react";
 
 function Nominations(){
-    let [nominations, setBlogs] = useState([
+    let [nominations, setNomination] = useState([
         {title: 'Iron Man', date: 2008, nominated: true, id:1},
         {title: 'Spider Man', date: 2017, nominated: true, id:2},
         {title: 'Avengers', date: 2018, nominated: true, id:3}
     ]);
-
     const handleClick = () => {
         console.log("movie removed")
     }
-
 
     return (
         <div className="nominations">
