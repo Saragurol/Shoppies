@@ -11,6 +11,7 @@ import Nominations from './Nominations';
 function App() {
   const [movies, setMovies] = useState(null);
   const [inputTitle, setInputTitle] = useState("");
+  const [isPending, setIsPending] = useState(false);
   let [nominatedMovies, setNominatedMovies] = useState(null);
 
   const handleNomination = (id) => {
@@ -22,15 +23,17 @@ function App() {
   const handleSubmit = (event) => {
     // avoid page refresh
     event.preventDefault();
-    fetch(`http://www.omdbapi.com/?i=tt3896198&apikey=31dfcc07&t=${inputTitle}`).then(res => {
+    setIsPending(true)
+    fetch(`http://www.omdbapi.com/?i=tt3896198&apikey=31dfcc07&t=${inputTitle}`)
+    .then(res => {
       return res.json();
     }).then(data => {
-      setMovies(data)
-
+      setMovies(data);
+      setIsPending(false);
     })
   }
-  const handleRemove = (id) => {
-    const newNominatedMovies = nominatedMovies.filter(movie => movie.id !== id);
+  const handleRemove = (imdbID) => {
+    const newNominatedMovies = nominatedMovies.filter(movie => movie.imdbID !== imdbID);
     setNominatedMovies(newNominatedMovies);
   }
   useEffect(()=>{
@@ -42,6 +45,7 @@ function App() {
       <div className="content">
         <h1>The Shoppies</h1>
         <SearchBar handleSearch={handleSearch} handleSubmit={handleSubmit}/>
+        { isPending && <div>Loading...</div> }
         {movies && <Results inputTitle={inputTitle} handleNomination = {handleNomination} movies={movies}/>}
         {nominatedMovies ? 
         <Nominations handleRemove={handleRemove} nominatedMovies={nominatedMovies}/> 

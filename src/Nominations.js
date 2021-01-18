@@ -7,7 +7,7 @@ function Nominations({handleRemove, nominatedMovies}){
             <h2>Nominations</h2>
             {nominatedMovies.map((movie) => (
                 <div className="nominatedmovie" key={movie.imdbID}>
-                <li>{ `${movie.Title} (${movie.Year})` } <button className="removebutton" onClick={() => handleRemove(movie.id)}>Remove</button> </li>
+                <li>{ `${movie.Title} (${movie.Year})` } <button className="removebutton" onClick={() => handleRemove(movie.imdbID)}>Remove</button> </li>
                 </div>
             ))}
             
