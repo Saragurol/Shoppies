@@ -1,17 +1,13 @@
-import "./searchbar.css";
-import {useState} from "react";                                    
+import "./searchbar.css";                                 
 
-function SearchBar(){
-
-    const handleClick = () => {
-        console.log("search movie")
-    }
+function SearchBar({handleSearch, handleSubmit}){
     return (
         <div className="searchbar">
-            <h2>Movie Title</h2>
-            <input>
+            <label htmlFor="title">Movie Title</label>
+            <form onSubmit={handleSubmit}>
+                <input type="text" onChange={handleSearch}/>
+            </form>
 
-            </input>
         </div>
     )
 }
