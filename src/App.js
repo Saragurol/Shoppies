@@ -12,10 +12,26 @@ function App() {
   const [movies, setMovies] = useState(null);
   const [inputTitle, setInputTitle] = useState("");
   const [isPending, setIsPending] = useState(false);
-  let [nominatedMovies, setNominatedMovies] = useState(null);
+  let [nominatedMovies, setNominatedMovies] = useState([]);
 
-  const handleNomination = (id) => {
+  const handleNomination = (imdb) => {
     console.log('handle nomination')
+    let nominatedMovie;
+    let duplicate = false;
+    if(Array.isArray(movies)){
+      nominatedMovie = movies.filter(movie => movie.imdb === movie.imdb);
+    } else {
+      nominatedMovie = movies;
+    }
+    for(let i = 0; i < nominatedMovies.length; i++){
+      const movie = nominatedMovies[i];
+      if(movie.imdbID === nominatedMovie.imdbID){
+        duplicate = true;
+      }
+    }
+    if(duplicate === false && nominatedMovies.length < 5){
+      setNominatedMovies([...nominatedMovies, nominatedMovie])
+    }
   }
   const handleSearch = (event) => {
     setInputTitle(event.target.value);
@@ -47,7 +63,7 @@ function App() {
         <SearchBar handleSearch={handleSearch} handleSubmit={handleSubmit}/>
         { isPending && <div>Loading...</div> }
         {movies && <Results inputTitle={inputTitle} handleNomination = {handleNomination} movies={movies}/>}
-        {nominatedMovies ? 
+        {nominatedMovies.length > 0 ? 
         <Nominations handleRemove={handleRemove} nominatedMovies={nominatedMovies}/> 
         : 
         <div>
@@ -55,7 +71,6 @@ function App() {
           <p>You have no nominated movies!</p>
         </div>
         }
-        
       </div>
     </div>
   );
@@ -63,4 +78,3 @@ function App() {
 
 export default App;
 
-// api key http://www.omdbapi.com/?i=tt3896198&apikey=31dfcc07
