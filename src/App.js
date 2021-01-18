@@ -3,11 +3,7 @@ import {useEffect, useState} from "react";
 import Results from './Results';
 import SearchBar from './SearchBar';
 import Nominations from './Nominations';
-// let [nominatedMovies, setNominatedMovies] = useState([
-  // {title: 'Iron Man', date: 2000, nominated: true, id:1}    
-//   {title: 'Spider Man', date: 2017, nominated: true, id:2},
-//   {title: 'Avengers', date: 2018, nominated: true, id:3}
-// ]);
+
 function App() {
   const [movies, setMovies] = useState(null);
   const [inputTitle, setInputTitle] = useState("");
@@ -15,7 +11,6 @@ function App() {
   let [nominatedMovies, setNominatedMovies] = useState([]);
 
   const handleNomination = (imdb) => {
-    console.log('handle nomination')
     let nominatedMovie;
     let duplicate = false;
     if(Array.isArray(movies)){
@@ -37,7 +32,6 @@ function App() {
     setInputTitle(event.target.value);
   }
   const handleSubmit = (event) => {
-    // avoid page refresh
     event.preventDefault();
     setIsPending(true)
     fetch(`http://www.omdbapi.com/?i=tt3896198&apikey=31dfcc07&t=${inputTitle}`)
@@ -52,16 +46,14 @@ function App() {
     const newNominatedMovies = nominatedMovies.filter(movie => movie.imdbID !== imdbID);
     setNominatedMovies(newNominatedMovies);
   }
-  useEffect(()=>{
-    console.log('ran effect')
-    // effect hooks run on each re-render
-  })
+
   return (
     <div className="App">
       <div className="content">
         <h1>The Shoppies</h1>
         <SearchBar handleSearch={handleSearch} handleSubmit={handleSubmit}/>
         { isPending && <div>Loading...</div> }
+        <div className = "container">
         {movies && <Results inputTitle={inputTitle} handleNomination = {handleNomination} movies={movies}/>}
         {nominatedMovies.length > 0 ? 
         <Nominations handleRemove={handleRemove} nominatedMovies={nominatedMovies}/> 
@@ -71,6 +63,7 @@ function App() {
           <p>You have no nominated movies!</p>
         </div>
         }
+        </div>
       </div>
     </div>
   );

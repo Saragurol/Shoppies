@@ -1,27 +1,28 @@
-import {useState} from "react";
+import './results.css'
 
 function Results({movies, handleNomination, inputTitle}) {
+    console.log(movies)
     if(movies.Response === "False"){
         return (
             <div>
-                <h2>Results for "{inputTitle}"</h2>
+                <h3>Results for "{inputTitle}"</h3>
                 <p>Movie not found!</p>
             </div>
         )
     } else
     return (
         <div className="results" >
-            <h2>Results for "{inputTitle}"</h2>
+            <h3>Results for "{inputTitle}"</h3>
             { Array.isArray(movies) ? 
             movies.map((movie) => (
                 <div className="movieDetails" key={movie.imdbID}>
                     <li>{movie.Title} ({movie.Year})</li>
-                    <button onClick={() => handleNomination(movie.imdbID)}>Nominate</button>
+                    <button className="nominatebutton" onClick={() => handleNomination(movie.imdbID)}>Nominate</button>
                 </div> 
             )) 
             :
             <div>
-                <li>{movies.Title} ({movies.Year}) <button onClick={() => handleNomination(movies.imdbID)}>Nominate</button></li>
+                <li>{movies.Title} ({movies.Year}) <button className="nominatebutton" onClick={() => handleNomination(movies.imdbID)}>Nominate</button></li>
             </div>
             }
         </div>

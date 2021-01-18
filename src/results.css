@@ -1,0 +1,6 @@
+.nominatebutton{
+    box-shadow: 1px 3px 5px rgba(0,0,0,0.1)
+}
+.nominatebutton:focus{
+    background: #ccc;
+}
